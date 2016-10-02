@@ -10,43 +10,43 @@ import Foundation
 import UIKit
 
 extension UIColor {
-    
-    var red: CGFloat {
+
+    var redValue: CGFloat {
         get {
             let components = self.cgColor.components
             return components![0]
         }
     }
     
-    var green: CGFloat {
+    var greenValue: CGFloat {
         get {
             let components = self.cgColor.components
             return components![1]
         }
     }
     
-    var blue: CGFloat {
+    var blueValue: CGFloat {
         get {
             let components = self.cgColor.components
             return components![2]
         }
     }
     
-    var alpha: CGFloat {
+    var alphaValue: CGFloat {
         get {
             return self.cgColor.alpha
         }
     }
 
     func alpha(_ alpha: CGFloat) -> UIColor {
-        return UIColor(red: self.red, green: self.green, blue: self.blue, alpha: alpha)
+        return UIColor(red: self.redValue, green: self.greenValue, blue: self.blueValue, alpha: alphaValue)
     }
     
     func white(_ scale: CGFloat) -> UIColor {
         return UIColor(
-            red: self.red + (1.0 - self.red) * scale,
-            green: self.green + (1.0 - self.green) * scale,
-            blue: self.blue + (1.0 - self.blue) * scale,
+            red: self.redValue + (1.0 - self.redValue) * scale,
+            green: self.greenValue + (1.0 - self.greenValue) * scale,
+            blue: self.blueValue + (1.0 - self.blueValue) * scale,
             alpha: 1.0
         )
     }
