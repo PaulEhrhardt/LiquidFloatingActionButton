@@ -38,7 +38,7 @@ class SimpleCircleLiquidEngine {
         return []
     }
     
-    func draw(_ parent: UIView) {
+    func draw(parent: UIView) {
         parent.layer.addSublayer(layer)
     }
 
@@ -59,7 +59,7 @@ class SimpleCircleLiquidEngine {
         return shape
     }
     
-    fileprivate func circleConnectedPoint(_ circle: LiquittableCircle, other: LiquittableCircle, angle: CGFloat) -> (CGPoint, CGPoint) {
+    fileprivate func circleConnectedPoint(circle: LiquittableCircle, other: LiquittableCircle, angle: CGFloat) -> (CGPoint, CGPoint) {
         let vec = other.center.minus(circle.center)
         let radian = atan2(vec.y, vec.x)
         let p1 = circle.circlePoint(radian + angle)
@@ -70,7 +70,7 @@ class SimpleCircleLiquidEngine {
     private func circleConnectedPoint(circle: LiquittableCircle, other: LiquittableCircle) -> (CGPoint, CGPoint) {
         var ratio = circleRatio(circle: circle, other: other)
         ratio = (ratio + ConnectThresh) / (1.0 + ConnectThresh)
-        let angle = CGFloat(M_PI_2) * angleOpen * ratio
+        let angle = .pi * angleOpen * ratio
         return circleConnectedPoint(circle: circle, other: other, angle: angle)
     }
 
@@ -137,13 +137,13 @@ class SimpleCircleLiquidEngine {
         return []
     }
 
-    fileprivate func circleRatio(_ circle: LiquittableCircle, other: LiquittableCircle) -> CGFloat {
+    fileprivate func circleRatio(circle: LiquittableCircle, other: LiquittableCircle) -> CGFloat {
         let distance = other.center.minus(circle.center).length()
         let ratio = 1.0 - (distance - radiusThresh) / (circle.radius + other.radius + radiusThresh)
         return min(max(ratio, 0.0), 1.0)
     }
 
-    func isConnected(_ circle: LiquittableCircle, other: LiquittableCircle) -> Bool {
+    func isConnected(circle: LiquittableCircle, other: LiquittableCircle) -> Bool {
         let distance = circle.center.minus(other.center).length()
         return distance - circle.radius - other.radius < radiusThresh
     }
