@@ -78,6 +78,4 @@ open class LiquittableCircle : UIView {
     open override func draw(_ rect: CGRect) {
         drawCircle()
     }
-    
-
 }
