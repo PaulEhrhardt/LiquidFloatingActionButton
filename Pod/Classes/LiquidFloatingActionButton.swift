@@ -18,6 +18,8 @@ import QuartzCore
 @objc public protocol LiquidFloatingActionButtonDelegate {
     // selected method
     @objc optional func liquidFloatingActionButton(_ liquidFloatingActionButton: LiquidFloatingActionButton, didSelectItemAtIndex index: Int)
+	@objc optional func liquidFloatingActionButtonWillOpenDrawer(_ liquidFloatingActionButton: LiquidFloatingActionButton)
+	@objc optional func liquidFloatingActionButtonWillCloseDrawer(_ liquidFloatingActionButton: LiquidFloatingActionButton)
 }
 
 public enum LiquidFloatingActionButtonAnimateStyle : Int {
@@ -43,8 +45,8 @@ open class LiquidFloatingActionButton : UIView {
         }
     }
     
-    open weak var delegate:   LiquidFloatingActionButtonDelegate?
-    open weak var dataSource: LiquidFloatingActionButtonDataSource?
+    weak open var delegate:   LiquidFloatingActionButtonDelegate?
+    weak open var dataSource: LiquidFloatingActionButtonDataSource?
 
     open var responsible = true
     open var isOpening: Bool  {
@@ -109,7 +111,8 @@ open class LiquidFloatingActionButton : UIView {
 
     // open all cells
     open func open() {
-        
+        delegate?.liquidFloatingActionButtonWillOpenDrawer?(self)
+		
         // rotate plus icon
         CATransaction.setAnimationDuration(0.8)
         self.plusLayer.transform = CATransform3DMakeRotation((CGFloat(M_PI) * rotationDegrees) / 180, 0, 0, 1)
@@ -126,7 +129,8 @@ open class LiquidFloatingActionButton : UIView {
 
     // close all cells
     open func close() {
-        
+        delegate?.liquidFloatingActionButtonWillCloseDrawer?(self)
+		
         // rotate plus icon
         CATransaction.setAnimationDuration(0.8)
         self.plusLayer.transform = CATransform3DMakeRotation(0, 0, 0, 1)
@@ -189,7 +193,7 @@ open class LiquidFloatingActionButton : UIView {
         didTapped()
     }
     
-    open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    open override func touchesCancelled(_ touches: Set<UITouch>?, with event: UIEvent?) {
         self.touching = false
         setNeedsDisplay()
     }
@@ -371,15 +375,15 @@ class CircleLiquidBaseView : ActionBarBaseView {
         }
 
         if let firstCell = openingCells.first {
-            bigEngine?.push(baseLiquid!, other: firstCell)
+            bigEngine?.push(circle: baseLiquid!, other: firstCell)
         }
         for i in 1..<openingCells.count {
             let prev = openingCells[i - 1]
             let cell = openingCells[i]
-            engine?.push(prev, other: cell)
+            engine?.push(circle: prev, other: cell)
         }
-        engine?.draw(baseLiquid!)
-        bigEngine?.draw(baseLiquid!)
+        engine?.draw(parent: baseLiquid!)
+        bigEngine?.draw(parent: baseLiquid!)
     }
     
     func updateOpen() {
@@ -516,7 +520,7 @@ open class LiquidFloatingCell : LiquittableCircle {
         }
     }
     
-    open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    open override func touchesCancelled(_ touches: Set<UITouch>?, with event: UIEvent?) {
         if responsible {
             color = originalColor
             setNeedsDisplay()
