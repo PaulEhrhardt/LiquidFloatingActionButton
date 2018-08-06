@@ -13,10 +13,10 @@ This is also [spinner loader](https://github.com/yoavlt/LiquidLoader) components
 ![Demo](https://github.com/yoavlt/LiquidFloatingActionButton/blob/master/Demo/top.gif?raw=true)
 
 ## Features
-- [x] liquid animation
+- [x] Liquid animation
 - [x] Easily customizable
 - [x] Objective-C compatible
-- [x] Swift 2.0
+- [x] Swift 4.1
 
 You can play a demo with [appetize.io](https://appetize.io/app/f4t42hgqbnbma4m12jcg3aeebg?device=iphone5s&scale=75&orientation=portrait)
 
